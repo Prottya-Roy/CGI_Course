@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Bresenham's Line Algorithm</title>
+</head>
+<body>
+
+  <canvas id="myCanvas" width="8000" height="300" style="border:1px solid #000;"></canvas>
+  <div id="coordinates">Coordinates: </div>
+
+  <script>
+    var canvas = document.getElementById("myCanvas");
+    var ctx = canvas.getContext("2d");
+    var isDrawing = false;
+    var startX, startY, endX, endY;
+
+    function drawLine(x0, y0, x1, y1) {
+      var dx = Math.abs(x1 - x0);
+      var dy = Math.abs(y1 - y0);
+      var sx = (x0 < x1) ? 1 : -1;
+      var sy = (y0 < y1) ? 1 : -1;
+      var difference = dx - dy;
+
+      while (!((x0 === x1) && (y0 === y1))) {
+        ctx.fillRect(x0, y0, 1, 1);
+
+        var doubleDifference = 2 * difference;
+        if (doubleDifference > -dy) {
+          difference -= dy;
+          x0 += sx;
+        }
+        if (doubleDifference < dx) {
+          difference += dx;
+          y0 += sy;
+        }
+      }
+    }
+
+    canvas.addEventListener('click', function(event) {
+      var mouseX = event.clientX - canvas.getBoundingClientRect().left;
+      var mouseY = event.clientY - canvas.getBoundingClientRect().top;
+
+      document.getElementById("coordinates").innerText = "Coordinates: (" + mouseX + ", " + mouseY + ")";
+
+      if (!isDrawing) {
+
+        startX = mouseX;
+        startY = mouseY;
+        isDrawing = true;
+      } else {
+
+        endX = mouseX;
+        endY = mouseY;
+        isDrawing = false;
+
+        drawLine(startX, startY, endX, endY);
+      }
+    });
+  </script>
+
+</body>
+</html>
