@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Bresenham's Line Algorithm</title>
+</head>
+<body>
+
+  <canvas id="myCanvas" width="500" height="300"></canvas>
+
+  <script>
+    // Get the canvas element
+    var canvas = document.getElementById("myCanvas");
+
+    // Get the 2D rendering context
+    var ctx = canvas.getContext("2d");
+
+    // Bresenham's Line Algorithm
+    function drawLine(x0, y0, x1, y1) {
+      var dx = Math.abs(x1 - x0);
+      var dy = Math.abs(y1 - y0);
+      var sx = (x0 < x1) ? 1 : -1;
+      var sy = (y0 < y1) ? 1 : -1;
+      var difference = dx - dy;
+
+      while (!((x0 === x1) && (y0 === y1))) {
+        ctx.fillRect(x0, y0, 1, 1);
+
+        var doubleDifference = 2 * difference;
+        if (doubleDifference > -dy) {
+          difference -= dy;
+          x0 += sx;
+        }
+        if (doubleDifference < dx) {
+          difference += dx;
+          y0 += sy;
+        }
+      }
+    }
+
+    // Call the drawLine function with coordinates
+    drawLine(100, 100, 1000, 5000);
+  </script>
+
+</body>
+</html>
