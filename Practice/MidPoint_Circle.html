@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Midpoint Circle Algorithm</title>
+</head>
+<body>
+
+  <canvas id="myCanvas" width="300" height="300" style="border:1px solid #000;"></canvas>
+
+  <script>
+    // Get the canvas element
+    var canvas = document.getElementById("myCanvas");
+
+    // Get the 2D rendering context
+    var ctx = canvas.getContext("2d");
+
+    // Midpoint Circle Algorithm
+    function drawCircle(xCenter, yCenter, radius) {
+      var x = radius;
+      var y = 0;
+      var decision = 1 - radius; // Decision parameter
+
+      while (x >= y) {
+        drawPixel(xCenter + x, yCenter - y); // Octant 1
+        drawPixel(xCenter + y, yCenter - x); // Octant 2
+        drawPixel(xCenter - y, yCenter - x); // Octant 3
+        drawPixel(xCenter - x, yCenter - y); // Octant 4
+        drawPixel(xCenter - x, yCenter + y); // Octant 5
+        drawPixel(xCenter - y, yCenter + x); // Octant 6
+        drawPixel(xCenter + y, yCenter + x); // Octant 7
+        drawPixel(xCenter + x, yCenter + y); // Octant 8
+
+        y++;
+
+        if (decision <= 0) {
+          decision += 2 * y + 1;
+        } else {
+          x--;
+          decision += 2 * (y - x) + 1;
+        }
+      }
+    }
+
+    // Helper function to draw a pixel
+    function drawPixel(x, y) {
+      ctx.fillStyle = "blue"; // Color of the pixel
+      ctx.fillRect(x, y, 1, 1); // Draw the pixel
+    }
+
+    // Call the drawCircle function with coordinates and radius
+    drawCircle(150, 150, 50);
+  </script>
+
+</body>
+</html>
