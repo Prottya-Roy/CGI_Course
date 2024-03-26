@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Draw Alphabets Using Bresenham's Line Algorithm</title>
+</head>
+<body>
+
+
+
+
+  
+
+  <canvas id="myCanvas" width="8000" height="300" style="border:1px solid #000;"></canvas>
+
+  <script>
+    // Get the canvas element
+    var canvas = document.getElementById("myCanvas");
+
+    // Get the 2D rendering context
+    var ctx = canvas.getContext("2d");
+
+    // Bresenham's Line Algorithm
+    function drawLine(x0, y0, x1, y1) {
+      var dx = Math.abs(x1 - x0);
+      var dy = Math.abs(y1 - y0);
+      var sx = (x0 < x1) ? 1 : -1;
+      var sy = (y0 < y1) ? 1 : -1;
+      var err = dx - dy;
+
+      while (true) {
+        drawPixel(x0, y0);
+
+        if ((x0 === x1) && (y0 === y1)) break;
+        var e2 = 2 * err;
+        if (e2 > -dy) {
+          err -= dy;
+          x0 += sx;
+        }
+        if (e2 < dx) {
+          err += dx;
+          y0 += sy;
+        }
+      }
+    }
+
+    // Helper function to draw a pixel
+    function drawPixel(x, y) {
+      ctx.fillStyle = "black"; // Color of the pixel
+      ctx.fillRect(x, y, 1, 1); // Draw the pixel
+    }
+
+    //bresenham's virtical half circle
+    function drawHalfCircleVertical(xCenter, yCenter, radius) {
+      var x = 0;
+      var y = radius;
+      var radiusError = 1 - y;
+
+      while (y >= x) {
+        drawPixel(xCenter + x, yCenter - y);  // Octant 1
+        drawPixel(xCenter + y, yCenter - x);  // Octant 2
+        drawPixel(xCenter + y, yCenter + x);  // Octant 7
+        drawPixel(xCenter + x, yCenter + y);  // Octant 8
+
+        x++;
+
+        if (radiusError < 0) {
+          radiusError += 2 * x + 1;
+        } else {
+          y--;
+          radiusError += 2 * (x - y) + 1;
+        }
+      }
+    }
+
+    //bresenham's semi circle
+    function drawSemiCircleForC(xCenter, yCenter, radius) {
+      var x = 0;
+      var y = radius;
+      var radiusError = 1 - y;
+
+      while (y >= x) {
+        drawPixel(xCenter + x, yCenter - y);  // Octant 1
+        drawPixel(xCenter - y, yCenter - x);  // Octant 3
+        drawPixel(xCenter - x, yCenter - y);  // Octant 4
+        drawPixel(xCenter - x, yCenter + y);  // Octant 5
+        drawPixel(xCenter - y, yCenter + x);  // Octant 6
+        drawPixel(xCenter + x, yCenter + y);  // Octant 8
+        x++;
+
+        if (radiusError < 0) {
+          radiusError += 2 * x + 1;
+        } else {
+          y--;
+          radiusError += 2 * (x - y) + 1;
+        }
+      }
+    }
+
+    function drawSemiCircleForG(xCenter, yCenter, radius) {
+      var x = 0;
+      var y = radius;
+      var radiusError = 1 - y;
+
+      while (y >= x) {
+        drawPixel(xCenter + x, yCenter - y);  // Octant 1
+        drawPixel(xCenter - y, yCenter - x);  // Octant 3
+        drawPixel(xCenter - x, yCenter - y);  // Octant 4
+        drawPixel(xCenter - x, yCenter + y);  // Octant 5
+        drawPixel(xCenter - y, yCenter + x);  // Octant 6
+        drawPixel(xCenter + y, yCenter + x); // Octant 7
+        drawPixel(xCenter + x, yCenter + y);  // Octant 8
+        x++;
+
+        if (radiusError < 0) {
+          radiusError += 2 * x + 1;
+        } else {
+          y--;
+          radiusError += 2 * (x - y) + 1;
+        }
+      }
+    }
+
+    // Function to draw the alphabet "A"
+    function drawAlphabetA() {
+      drawLine(150, 50, 50, 250);
+      drawLine(150, 50, 250, 250);
+      drawLine(100, 150, 200, 150);
+    }
+
+    // Function to draw the alphabet "B"
+    function drawAlphabetB() {
+      drawLine(255, 50, 255, 250);
+      drawHalfCircleVertical(255, 100, 50);
+      drawHalfCircleVertical(255, 200, 50);
+    }
+
+    // Function to draw the alphabet "C"
+    function drawAlphabetC() {
+      drawSemiCircleForC(410,150,100);
+    }
+    //Funtion to draw the alphabate "D"
+    function drawAlphabetD() {
+      drawLine(510, 50, 510, 250);
+      drawHalfCircleVertical(510, 150, 100);
+    }
+
+    //Funtion to draw the alphabate "E"
+    function drawAlphabetE() {
+      drawLine(620, 50, 620, 250);
+      drawLine(620, 50, 690, 50);
+      drawLine(620, 150, 670, 150);
+      drawLine(620, 250, 690, 250);
+    }
+    //Funtion to draw the alphabate "F"
+    function drawAlphabetF() {
+      drawLine(700, 50, 700, 250);
+      drawLine(700, 50, 770, 50);
+      drawLine(700, 150, 750, 150);
+    }
+
+    //Funtion to draw the alphabate "G"
+    function drawAlphabetG() {
+        drawSemiCircleForG(880,150,100);
+        drawLine(980,150, 900,150);
+    }
+
+    //Funtion to draw the alphabate "H"
+    function drawAlphabetH() {
+        drawLine(1000, 50, 1000, 250);
+        drawLine(1100, 50, 1100, 250);
+        drawLine(1000, 150, 1100, 150);
+    }
+
+    //Funtion to draw the alphabate "I"
+    function drawAlphabetI() {
+        drawLine(1120, 50, 1180, 50);
+        drawLine(1120, 250, 1180, 250);
+        drawLine(1150, 50, 1150, 250);
+    }
+
+    //Funtion to draw the alphabate "J"
+    function drawAlphabetJ() {
+        drawLine(1200, 50, 1250, 50);
+        drawLine(1250, 50, 1250, 250);
+        drawLine(1200, 250, 1250, 250);
+        drawLine(1200, 250, 1200, 200);
+    }
+
+    //Funtion to draw the alphabate "K"
+    function drawAlphabetK() {
+        drawLine(1270, 50, 1270, 250);
+        drawLine(1270, 150, 1340, 50);
+        drawLine(1270, 150, 1340, 250);
+    }
+
+    //Funtion to draw the alphabate "L"
+    function drawAlphabetL() {
+        drawLine(1350, 50, 1350, 250);
+        drawLine(1350, 250, 1440, 250);
+    }
+
+    //Funtion to draw the alphabate "M"
+    function drawAlphabetM() {
+        drawLine(1450, 50, 1450, 250);
+        drawLine(1590, 50, 1590, 250);
+        drawLine(1450, 50, 1520, 150);
+        drawLine(1590, 50, 1520, 150);
+    }
+
+    //Funtion to draw the alphabate "N"
+    function drawAlphabetN() {
+        drawLine(1600, 50, 1600, 250);
+        drawLine(1720, 50, 1720, 250);
+        drawLine(1600, 50, 1720, 250);
+    }
+
+    //Funtion to draw the alphabate "P"
+    function drawAlphabetP() {
+        drawLine(1730, 50, 1730, 250);
+        drawHalfCircleVertical(1730, 100, 50);
+    }
+
+    //Funtion to draw the alphabate "R"
+    function drawAlphabetR() {
+        drawLine(1800, 50, 1800, 250);
+        drawHalfCircleVertical(1800, 100, 50);
+        drawLine(1800, 150, 1860, 250);
+    }
+
+    //Funtion to draw the alphabate "S"
+    function drawAlphabetS() {
+        drawLine(1870, 50, 1870, 150);
+        drawLine(1870, 50, 1940, 50);
+        drawLine(1870, 150, 1940, 150);
+        drawLine(1870, 250, 1940, 250);
+        drawLine(1940, 150, 1940, 250);
+    }  
+
+    // Call the functions to draw the alphabets
+    drawAlphabetA();
+    drawAlphabetB();
+    drawAlphabetC();
+    drawAlphabetD();
+    drawAlphabetE();
+    drawAlphabetF();
+    drawAlphabetG();
+    drawAlphabetH();
+    drawAlphabetI();
+    drawAlphabetJ();
+    drawAlphabetK();
+    drawAlphabetL();
+    drawAlphabetM();
+    drawAlphabetN();
+    drawAlphabetP();
+    drawAlphabetR();
+    drawAlphabetS();
+    // ... Call functions for other letters ...
+  </script>
+
+</body>
+</html>
